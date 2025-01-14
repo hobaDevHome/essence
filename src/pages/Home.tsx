@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { products } from '../data/products';
 import ProductCard from '../components/ProductCard';
 import { useState } from 'react'; // Import useState
+import emailjs from "@emailjs/browser";
 
 
 export default function Home() {
@@ -19,31 +20,47 @@ export default function Home() {
   const handleChange = (e: any) => {
     const { id, value } = e.target;
     setFormData((prev) => ({ ...prev, [id]: value }));
-    console.log('-----------  new api link')
+    console.log('-----------  email client')
   };
 
   // Handle form submission
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch('/api/send-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+    // try {
+    //   const response = await fetch('/api/send-email', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(formData),
+    //   });
 
-      if (response.ok) {
-        alert('Message sent successfully!');
-        setFormData({ name: '', email: '', message: '' }); // Clear form
-      } else {
-        alert('Failed to send message.');
-      }
+    //   if (response.ok) {
+    //     alert('Message sent successfully!');
+    //     setFormData({ name: '', email: '', message: '' }); // Clear form
+    //   } else {
+    //     alert('Failed to send message.');
+    //   }
+    // } catch (error) {
+    //   console.error('Error:', error);
+    //   alert('An error occurred. Please try again.');
+    // }
+
+    try {
+      // Send email using EmailJS
+      await emailjs.send(
+        "service_wytv1jq", // Replace with your EmailJS Service ID
+        "template_uczgmz7", // Replace with your EmailJS Template ID
+        formData,
+        "qsYhjsKk2FfYKoH-2" // Replace with your EmailJS User ID
+      );
+
+      alert("Message sent successfully!");
+      setFormData({ name: "", email: "", message: "" }); // Clear form
     } catch (error) {
-      console.error('Error:', error);
-      alert('An error occurred. Please try again.');
+      console.error("Error:", error);
+      alert("An error occurred. Please try again.");
     }
   };
 
