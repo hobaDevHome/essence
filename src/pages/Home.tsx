@@ -4,7 +4,6 @@ import { products } from '../data/products';
 import ProductCard from '../components/ProductCard';
 import { useState } from 'react'; // Import useState
 
-import { } from '../../api/'
 
 export default function Home() {
   const bestSellers = products.filter(product => product.bestSeller);
