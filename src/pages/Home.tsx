@@ -4,6 +4,8 @@ import { products } from '../data/products';
 import ProductCard from '../components/ProductCard';
 import { useState } from 'react'; // Import useState
 
+import { } from '../../api/'
+
 export default function Home() {
   const bestSellers = products.filter(product => product.bestSeller);
 
@@ -18,7 +20,7 @@ export default function Home() {
   const handleChange = (e: any) => {
     const { id, value } = e.target;
     setFormData((prev) => ({ ...prev, [id]: value }));
-    console.log('form data', formData)
+    console.log('-----------  new api link')
   };
 
   // Handle form submission
@@ -26,7 +28,7 @@ export default function Home() {
     e.preventDefault();
 
     try {
-      const response = await fetch('/api/send-email', {
+      const response = await fetch('../../api/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
