@@ -1,17 +1,19 @@
 import nodemailer from "nodemailer";
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
     if (req.method === "POST") {
         const { name, email, message } = req.body;
 
+        // Create a Nodemailer transporter
         const transporter = nodemailer.createTransport({
-            service: "gmail",
+            service: "gmail", // Use your email service (e.g., Gmail, Outlook)
             auth: {
-                user: process.env.EMAIL_USER, // Store email credentials in environment variables
-                pass: process.env.EMAIL_PASS,
+                user: process.env.EMAIL_USER, // Your email
+                pass: process.env.EMAIL_PASS, // Your email password or app-specific password
             },
         });
 
+        // Email options
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: "heba96@yahoo.com", // Replace with your email
@@ -20,6 +22,7 @@ module.exports = async (req, res) => {
         };
 
         try {
+            // Send the email
             await transporter.sendMail(mailOptions);
             res.status(200).json({ message: "Email sent successfully" });
         } catch (error) {
@@ -29,4 +32,4 @@ module.exports = async (req, res) => {
     } else {
         res.status(405).json({ message: "Method not allowed" });
     }
-};
+}
